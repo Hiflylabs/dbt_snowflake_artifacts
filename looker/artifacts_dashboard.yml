@@ -1,0 +1,563 @@
+- dashboard: dbt_artifacts_performance__costs
+  title: dbt Artifacts Performance & Costs
+  layout: newspaper
+  preferred_viewer: dashboards-next
+  description: ''
+  preferred_slug: vugqZ1dLY4cwQW544waBbr
+  elements:
+  - title: Tags & Upstream Dependencies
+    name: Tags & Upstream Dependencies
+    model: Analytics
+    explore: model_performance_fact
+    type: looker_grid
+    fields: [model_dags_dim.model_name, model_dags_dim.tags, model_dags_dim.upstream_dependencies]
+    sorts: [model_dags_dim.model_name]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    color_application:
+      collection_id: custom-template
+      palette_id: custom-template-categorical-0
+      options:
+        steps: 5
+    groupBars: true
+    labelSize: 10pt
+    showLegend: true
+    series_types: {}
+    defaults_version: 1
+    hidden_fields: []
+    y_axes: []
+    listen:
+      Model Name: model_performance_fact.model_name
+    row: 16
+    col: 0
+    width: 24
+    height: 6
+  - title: New Tile
+    name: New Tile
+    model: Analytics
+    explore: model_performance_fact
+    type: single_value
+    fields: [model_performance_fact.start_month, model_performance_fact.total_est_cost]
+    fill_fields: [model_performance_fact.start_month]
+    filters:
+      model_performance_fact.status: SUCCESS,PASS
+    sorts: [model_performance_fact.start_month desc]
+    limit: 500
+    custom_color_enabled: true
+    show_single_value_title: true
+    show_comparison: true
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    enable_conditional_formatting: true
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    single_value_title: Estimated Cost This Month
+    comparison_label: Change
+    conditional_formatting: [{type: equal to, value: !!null '', background_color: "#D6C1BF",
+        font_color: !!null '', color_application: {collection_id: custom-template,
+          palette_id: custom-template-sequential-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
+    series_types: {}
+    defaults_version: 1
+    hidden_fields: []
+    y_axes: []
+    listen: {}
+    row: 2
+    col: 0
+    width: 8
+    height: 6
+  - title: Model Performance & Cost
+    name: Model Performance & Cost
+    model: Analytics
+    explore: model_performance_fact
+    type: looker_grid
+    fields: [model_performance_fact.model_name, model_performance_fact.warehouse_size,
+      model_performance_fact.average_runtime, model_performance_fact.average_partioned_scanned_pct,
+      model_performance_fact.average_bytes_spilled_to_local_storage, model_performance_fact.average_bytes_spilled_to_remote_storage,
+      model_performance_fact.average_est_cost, model_performance_fact.successful_runs,
+      model_performance_fact.total_runs]
+    sorts: [model_performance_fact.average_runtime desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "${model_performance_fact.successful_runs}/${model_performance_fact.total_runs}",
+        label: Success Rate, value_format: !!null '', value_format_name: percent_2,
+        _kind_hint: measure, table_calculation: success_rate, _type_hint: number}]
+    show_view_names: false
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    truncate_header: false
+    series_cell_visualizations:
+      model_performance_fact.average_runtime:
+        is_active: true
+    conditional_formatting: [{type: equal to, value: !!null '', background_color: "#D6C1BF",
+        font_color: !!null '', color_application: {collection_id: custom-template,
+          palette_id: custom-template-sequential-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
+    custom_color_enabled: true
+    show_single_value_title: true
+    single_value_title: Estimated Cost This Month
+    show_comparison: true
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    comparison_label: Change
+    series_types: {}
+    defaults_version: 1
+    hidden_fields: [model_performance_fact.successful_runs, model_performance_fact.total_runs]
+    y_axes: []
+    listen:
+      Model Name: model_performance_fact.model_name
+    row: 8
+    col: 0
+    width: 24
+    height: 8
+  - title: Daily Estimated Costs
+    name: Daily Estimated Costs
+    model: Analytics
+    explore: model_performance_fact
+    type: looker_line
+    fields: [model_performance_fact.start_date, model_performance_fact.total_est_cost]
+    fill_fields: [model_performance_fact.start_date]
+    sorts: [model_performance_fact.start_date desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "${model_performance_fact.successful_runs}/${model_performance_fact.total_runs}",
+        label: Success Rate, value_format: !!null '', value_format_name: percent_2,
+        _kind_hint: measure, table_calculation: success_rate, _type_hint: number,
+        is_disabled: true}]
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    truncate_header: false
+    size_to_fit: true
+    series_cell_visualizations:
+      model_performance_fact.average_runtime:
+        is_active: true
+    table_theme: white
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting: [{type: equal to, value: !!null '', background_color: "#D6C1BF",
+        font_color: !!null '', color_application: {collection_id: custom-template,
+          palette_id: custom-template-sequential-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    custom_color_enabled: true
+    show_single_value_title: true
+    single_value_title: Estimated Cost This Month
+    show_comparison: true
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    comparison_label: Change
+    series_types: {}
+    defaults_version: 1
+    hide_totals: false
+    hide_row_totals: false
+    hidden_fields: []
+    y_axes: []
+    listen: {}
+    row: 2
+    col: 8
+    width: 16
+    height: 6
+  - title: Model Breakdown
+    name: Model Breakdown
+    model: Analytics
+    explore: model_performance_fact
+    type: looker_grid
+    fields: [model_performance_fact.start_time, model_performance_fact.model_name,
+      model_performance_fact.status, model_performance_fact.error_message, model_performance_fact.warehouse_size,
+      model_performance_fact.query_id, model_performance_fact.query_text, model_performance_fact.total_rows_produced,
+      model_performance_fact.total_runtime, model_performance_fact.total_est_cost]
+    sorts: [model_performance_fact.total_runtime desc]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: false
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: true
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    truncate_header: false
+    series_cell_visualizations:
+      model_performance_fact.average_runtime:
+        is_active: true
+    conditional_formatting: [{type: equal to, value: !!null '', background_color: "#D6C1BF",
+        font_color: !!null '', color_application: {collection_id: custom-template,
+          palette_id: custom-template-sequential-0}, bold: false, italic: false, strikethrough: false,
+        fields: !!null ''}]
+    custom_color_enabled: true
+    show_single_value_title: true
+    single_value_title: Estimated Cost This Month
+    show_comparison: true
+    comparison_type: value
+    comparison_reverse_colors: false
+    show_comparison_label: true
+    comparison_label: Change
+    series_types: {}
+    defaults_version: 1
+    hidden_fields: []
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: true
+    interpolation: linear
+    y_axes: []
+    listen:
+      Model Name: model_performance_fact.model_name
+    row: 22
+    col: 0
+    width: 24
+    height: 7
+  - title: dbt Run Metrics
+    name: dbt Run Metrics
+    model: Analytics
+    explore: pipeline_runs_fact
+    type: looker_scatter
+    fields: [pipeline_runs_fact.run_start_time, pipeline_runs_fact.run_selection,
+      pipeline_runs_fact.total_run_elapsed_time]
+    pivots: [pipeline_runs_fact.run_selection]
+    sorts: [pipeline_runs_fact.run_start_time desc, pipeline_runs_fact.run_selection]
+    limit: 500
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_view_names: false
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    show_null_points: false
+    y_axes: [{label: '', orientation: left, series: [{axisId: pipeline_runs_fact.total_run_elapsed_time,
+            id: stg_run_results - pipeline_runs_fact.total_run_elapsed_time, name: stg_run_results},
+          {axisId: pipeline_runs_fact.total_run_elapsed_time, id: 'tag:base - pipeline_runs_fact.total_run_elapsed_time',
+            name: 'tag:base'}, {axisId: pipeline_runs_fact.total_run_elapsed_time,
+            id: 'tag:bootstrap - pipeline_runs_fact.total_run_elapsed_time', name: 'tag:bootstrap'},
+          {axisId: pipeline_runs_fact.total_run_elapsed_time, id: 'tag:staging - pipeline_runs_fact.total_run_elapsed_time',
+            name: 'tag:staging'}], showLabels: true, showValues: true, unpinAxis: false,
+        tickDensity: default, tickDensityCustom: 5, type: linear}]
+    series_types: {}
+    interpolation: linear
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
+    value_labels: legend
+    label_type: labPer
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    map_plot_mode: points
+    heatmap_gridlines: false
+    heatmap_gridlines_empty: false
+    heatmap_opacity: 0.5
+    show_region_field: true
+    draw_map_labels_above_data: true
+    map_tile_provider: light
+    map_position: fit_data
+    map_scale_indicator: 'off'
+    map_pannable: true
+    map_zoomable: true
+    map_marker_type: circle
+    map_marker_icon_name: default
+    map_marker_radius_mode: proportional_value
+    map_marker_units: meters
+    map_marker_proportional_scale_type: linear
+    map_marker_color_mode: fixed
+    show_legend: true
+    quantize_map_value_colors: false
+    reverse_map_value_colors: false
+    hidden_fields: []
+    listen: {}
+    row: 44
+    col: 0
+    width: 24
+    height: 6
+  - title: Test Performance
+    name: Test Performance
+    model: Analytics
+    explore: test_performance_fact
+    type: looker_grid
+    fields: [test_performance_fact.test_name, test_performance_fact.average_total_node_runtime,
+      test_performance_fact.successful_runs, test_performance_fact.total_runs]
+    sorts: [test_performance_fact.average_total_node_runtime desc]
+    limit: 500
+    dynamic_fields: [{category: table_calculation, expression: "${test_performance_fact.successful_runs}/${test_performance_fact.total_runs}",
+        label: Pass Rate, value_format: !!null '', value_format_name: percent_2, _kind_hint: measure,
+        table_calculation: pass_rate, _type_hint: number}]
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    hidden_fields: [test_performance_fact.successful_runs, test_performance_fact.total_runs]
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
+    series_types: {}
+    y_axes: []
+    listen:
+      Test Name: test_performance_fact.test_name
+    row: 31
+    col: 0
+    width: 24
+    height: 5
+  - title: Test Breakdown
+    name: Test Breakdown
+    model: Analytics
+    explore: test_performance_fact
+    type: looker_grid
+    fields: [test_performance_fact.start_time, test_performance_fact.test_name, test_performance_fact.status,
+      test_performance_fact.total_total_node_runtime, test_performance_fact.error_message]
+    sorts: [test_performance_fact.start_time desc]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    hidden_fields: []
+    x_axis_gridlines: false
+    y_axis_gridlines: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    legend_position: center
+    point_style: none
+    show_value_labels: false
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    defaults_version: 1
+    series_types: {}
+    y_axes: []
+    listen:
+      Test Name: test_performance_fact.test_name
+    row: 36
+    col: 0
+    width: 24
+    height: 6
+  - name: Test Metrics
+    type: text
+    title_text: Test Metrics
+    subtitle_text: Aggregate and historical test performance
+    body_text: ''
+    row: 29
+    col: 0
+    width: 24
+    height: 2
+  - name: Model Metrics
+    type: text
+    title_text: Model Metrics
+    subtitle_text: Aggregate and historical model performance
+    body_text: ''
+    row: 0
+    col: 0
+    width: 24
+    height: 2
+  - name: Pipeline Run Metrics
+    type: text
+    title_text: Pipeline Run Metrics
+    subtitle_text: Performance of pipeline runs
+    body_text: ''
+    row: 42
+    col: 0
+    width: 24
+    height: 2
+  filters:
+  - name: Model Name
+    title: Model Name
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: tag_list
+      display: popover
+    model: Analytics
+    explore: model_performance_fact
+    listens_to_filters: []
+    field: model_performance_fact.model_name
+  - name: Test Name
+    title: Test Name
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: tag_list
+      display: popover
+      options: []
+    model: Analytics
+    explore: test_performance_fact
+    listens_to_filters: []
+    field: test_performance_fact.test_name

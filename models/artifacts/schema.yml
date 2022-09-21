@@ -1,0 +1,77 @@
+version: 2
+models:
+  - name: stg_manifest_nodes
+    description: "Manifest nodes stage table with parsing and alias"
+    columns:
+      - name: model_name
+        tests:
+          - not_null
+
+  - name: stg_query_history
+    description: "Query history stage table with parsing and alias"
+    columns:
+      - name: total_elapsed_time_min
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      - name: rows_produced
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+  - name: stg_run_results
+    description: "Run results stage table with parsing and alias"
+    columns:
+      - name: model_name
+        tests:
+          - not_null
+      - name: total_node_runtime
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+  - name: wh_model_dags_dim
+    description: "Model DAGs dimension table with tags and upstream dependencies"
+    columns:
+      - name: model_dag_pk
+        tests:
+          - not_null
+          - unique
+
+  - name: wh_model_performance_fact
+    description: "Model performance fact table with runtime metrics and cost implications"
+    columns:
+      - name: model_performance_pk
+        tests:
+          - not_null
+          - unique
+      - name: est_credits_used
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: est_cost
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+  - name: wh_test_performance_fact
+    description: "Model performance fact table with runtime metrics and cost implications"
+    columns:
+      - name: test_performance_pk
+        tests:
+          - not_null
+          - unique
+
+  - name: wh_pipeline_runs_fact
+    description: "Table of dbt runs"
+    columns:
+      - name: pipeline_run_pk
+        tests:
+          - not_null
+          - unique
