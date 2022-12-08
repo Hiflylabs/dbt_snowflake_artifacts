@@ -63,6 +63,8 @@ export SNOWFLAKE_CONTRACT_RATE=4
 
 Go to `Settings` > `Environment Variables` > `Add Variable`
 
+See docs: https://docs.getdbt.com/docs/build/environment-variables
+
 ## Included models
 
 ```
