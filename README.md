@@ -45,6 +45,8 @@ vars:
 
 ### Change Snowflake contract environmental variable:
 
+![snowflake_pricing](./_misc/snowflake_pricing.png)
+
 **Windows**
 
 ```bash
@@ -56,6 +58,10 @@ set SNOWFLAKE_CONTRACT_RATE=4
 ```bash
 export SNOWFLAKE_CONTRACT_RATE=4
 ```
+
+**dbt Cloud**
+
+Go to `Settings` > `Environment Variables` > `Add Variable`
 
 ## Included models
 
@@ -71,7 +77,9 @@ wh_test_performance_fact
 ```
 ## Looker
 
-Use [artifacts_dashboard.yml](./looker/artifacts_dashboard.yml) to create a LookML derived dashboard.
+Add the LookML views in the [views](./looker/views/) folder to your Looker project.
+
+Use [artifacts_dashboard.yml](./looker/dashboards/artifacts_dashboard.yml) to create a LookML derived dashboard.
 
 Refer to: https://cloud.google.com/looker/docs/building-lookml-dashboards
 
