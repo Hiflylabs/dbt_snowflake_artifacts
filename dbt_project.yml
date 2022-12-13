@@ -17,7 +17,7 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 on-run-end:
-    - "{{ upload_artifacts_wrapper() }}"
+    - "{{ dbt-snowflake-artifacts.upload_artifacts_wrapper() }}"
 
 models:
   dbt_snowflake_artifacts:
