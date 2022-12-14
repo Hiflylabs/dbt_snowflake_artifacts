@@ -31,6 +31,7 @@ on-run-end:
 
 models:    
 # artifacts destination
+  dbt_snowflake_artifacts:
       artifacts:
           +schema: artifacts
           materialized: table
