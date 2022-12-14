@@ -33,6 +33,7 @@ models:
 # artifacts destination
   dbt_snowflake_artifacts:
       artifacts:
+          +schema: artifacts
           +enabled: "{{ target.name in ['dev', 'prod'] }}"
 
 vars:
