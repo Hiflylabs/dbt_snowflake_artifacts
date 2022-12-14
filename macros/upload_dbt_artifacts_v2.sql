@@ -98,7 +98,7 @@
 
         )
 
-        {{ flatten_results("raw_data") }}
+        {{ dbt_snowflake_artifacts.flatten_results("raw_data") }}
 
     ) as new_data
     on old_data.command_invocation_id = new_data.command_invocation_id and old_data.node_id = new_data.node_id
