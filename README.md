@@ -38,6 +38,8 @@ models:
 vars:
   #business critical
   snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
+  target_dev: 'dev'
+  target_prod: 'prod'
 
 ```
 
