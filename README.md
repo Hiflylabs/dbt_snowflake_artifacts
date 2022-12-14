@@ -27,7 +27,7 @@ Make sure you include the following configs in your `dbt_project.yml` file:
 
 ```yml
 on-run-end:
-    - "{{ dbt-snowflake-artifacts.upload_artifacts_wrapper() }}"
+    - "{{ dbt_snowflake_artifacts.upload_artifacts_wrapper() }}"
 
 models:    
 # artifacts destination

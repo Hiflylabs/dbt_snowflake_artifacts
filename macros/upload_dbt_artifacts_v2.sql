@@ -33,7 +33,7 @@
             metadata:invocation_id::string as command_invocation_id,
             -- NOTE: DBT_CLOUD_RUN_ID is case sensitive here
             metadata:env:DBT_CLOUD_RUN_ID::int as dbt_cloud_run_id,
-            {{ make_artifact_run_id() }} as artifact_run_id,
+            {{ dbt_snowflake_artifacts.make_artifact_run_id() }} as artifact_run_id,
             metadata:generated_at::timestamp_tz as artifact_generated_at,
             metadata:dbt_version::string as dbt_version,
             metadata:env as env,
@@ -92,7 +92,7 @@
                 metadata:invocation_id::string as command_invocation_id,
                 -- NOTE: DBT_CLOUD_RUN_ID is case sensitive here
                 metadata:env:DBT_CLOUD_RUN_ID::int as dbt_cloud_run_id,
-                {{ make_artifact_run_id() }} as artifact_run_id,
+                {{ dbt_snowflake_artifacts.make_artifact_run_id() }} as artifact_run_id,
                 metadata:generated_at::timestamp_tz as generated_at
             from @{{ artifact_stage }}/{{ invocation_id }} as run_results
 
@@ -144,7 +144,7 @@
                 metadata:invocation_id::string as command_invocation_id,
                 -- NOTE: DBT_CLOUD_RUN_ID is case sensitive here
                 metadata:env:DBT_CLOUD_RUN_ID::int as dbt_cloud_run_id,
-                {{ make_artifact_run_id() }} as artifact_run_id,
+                {{ dbt_snowflake_artifacts.make_artifact_run_id() }} as artifact_run_id,
                 metadata:generated_at::timestamp_tz as generated_at,
                 manifests.$1 as data
             from @{{ artifact_stage }}/{{ invocation_id }} as manifests
