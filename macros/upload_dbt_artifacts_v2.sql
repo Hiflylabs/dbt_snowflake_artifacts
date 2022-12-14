@@ -151,7 +151,7 @@
 
         )
 
-        {{ flatten_manifest("raw_data") }}
+        {{ dbt_snowflake_artifacts.flatten_manifest("raw_data") }}
 
     ) as new_data
     -- NB: We dedupe on artifact_run_id rather than command_invocation_id for manifest nodes
