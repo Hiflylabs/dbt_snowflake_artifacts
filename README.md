@@ -37,9 +37,17 @@ models:
           materialized: table
           +enabled: "{{ target.name in [var('target_dev'), var('target_prod')] }}"
 
+      +grants:
+        select: "[ {{ var('transformer_role') }}, {{ var('reporter_role') }} ]"
+
 vars:
-  # default business critical (change this according to your package)
+  #business critical
   snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
+  target_dev: "{{ env_var('TARGET_DEV', 'dev') }}"
+  target_prod: "{{ env_var('TARGET_PROD', 'prod') }}"
+  transformer_role: "{{ env_var('TRANSFORMER_ROLE', 'TRANSFORMER_ROLE') }}"
+  reporter_role: "{{ env_var('REPORTER_ROLE', 'REPORTER_ROLE') }}"
+
 ```
 
 + Your Looker role have access to the `_ARTIFACTS` schema
