@@ -88,6 +88,42 @@ Use [artifacts_dashboard.yml](./looker/dashboards/artifacts_dashboard.yml) to cr
 
 Refer to: https://cloud.google.com/looker/docs/building-lookml-dashboards
 
+Add this bit to your `.model` file:
+
+```
+#### DBT ARTIFACTS PIECES ###
+
+explore: model_performance_fact {
+
+  group_label: "Artifacts"
+  description: "dbt runs explore"
+  label: "dbt Models"
+  view_label: "    Run Results"
+
+  join: model_dags_dim {
+    view_label: "   DAG"
+    sql_on: ${model_performance_fact.model_name} = ${model_dags_dim.model_name};;
+    type: left_outer
+    relationship: many_to_one
+  }
+
+}
+
+explore: test_performance_fact {
+  group_label: "Artifacts"
+  description: "dbt test explore"
+  label: "dbt Tests"
+  view_label: "    Test Results"
+}
+
+explore: pipeline_runs_fact{
+  group_label: "Artifacts"
+  description: "dbt Pipeline runs explore"
+  label: "dbt Pipelines"
+  view_label: "    Pipeline Runs"
+}
+```
+
 ## Example Outcome
 
 Possible metrics:
