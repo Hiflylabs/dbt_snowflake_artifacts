@@ -35,7 +35,7 @@ models:
       artifacts:
           +schema: artifacts
           materialized: table
-          +enabled: "{{ target.name in ['dev', 'prod'] }}"
+          +enabled: "{{ target.name in [var('target_dev'), var('target_prod')] }}"
 
 vars:
   # default business critical (change this according to your package)
