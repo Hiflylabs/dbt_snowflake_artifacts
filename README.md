@@ -37,9 +37,6 @@ models:
           materialized: table
           +enabled: "{{ target.name in [var('target_dev'), var('target_prod')] }}"
 
-      +grants:
-        select: "[ {{ var('transformer_role') }}, {{ var('reporter_role') }} ]"
-
 vars:
   #business critical
   snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
