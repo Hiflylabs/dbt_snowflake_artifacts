@@ -1,4 +1,4 @@
-# dbt-snowflake-artifacts
+# dbt_snowflake_artifacts
 
 This is a simplified version of the [dbt-artifacts](https://github.com/brooklyn-data/dbt_artifacts/tree/main/macros) package with limited capabilities. For extended functionalities, please do check out the original package.
 
@@ -14,7 +14,7 @@ Include this in your `packages.yml` file:
 
 ```yml
 packages:
-  - git: "https://github.com/Hiflylabs/dbt-snowflake-artifacts.git"
+  - git: "https://github.com/Hiflylabs/dbt_snowflake_artifacts.git"
     revision: main
 ```
 Load the package
