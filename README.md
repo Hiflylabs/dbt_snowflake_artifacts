@@ -17,7 +17,7 @@ Include this in your `packages.yml` file:
 ```yml
 packages:
   - git: "https://github.com/Hiflylabs/dbt_snowflake_artifacts.git"
-    revision: main
+    revision: 1.0
 ```
 Load the package
 
