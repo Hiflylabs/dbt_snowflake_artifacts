@@ -4,7 +4,7 @@ This is a simplified version of the [dbt-artifacts](https://github.com/brooklyn-
 
 Hereby we would like to credit creators and contributors of the aformentioned package.
 
-** ⚠️ Note: This is very specific for a Snowflake stack.**
+**⚠️ Note: This is very specific for a Snowflake stack.**
 
 ## Usage
 
