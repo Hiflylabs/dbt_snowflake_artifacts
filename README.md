@@ -1,16 +1,18 @@
 # dbt_snowflake_artifacts
 
-This is a simplified version of the [dbt-artifacts](https://github.com/brooklyn-data/dbt_artifacts/tree/main/macros) package with limited capabilities. For extended functionalities, please do check out the original package.
+This is a simplified version of the [dbt-artifacts](https://github.com/brooklyn-data/dbt_artifacts/tree/main/macros) package with limited capabilities. For extended functionalities, please do check out the original package. We decided to simplify because all we wanted to focus on is warehouse costs and runtime metrics. The original package wasn't able to append costs to the artifacts tables (back then).
 
 Hereby we would like to credit creators and contributors of the aformentioned package.
 
-**Note: This is very specific for a Snowflake stack**
+** ⚠️ Note: This is very specific for a Snowflake stack.**
 
 ## Usage
 
 ### Install package
 
 Include this in your `packages.yml` file:
+
+*Alternatively, you can use a specific commit hash or tag for versioning*
 
 ```yml
 packages:
@@ -26,29 +28,28 @@ dbt deps
 Make sure you include the following configs in your `dbt_project.yml` file:
 
 ```yml
+#this uploads the artifacts to the DBT_ARTIFACTS schema
 on-run-end:
     - "{{ dbt_snowflake_artifacts.upload_artifacts_wrapper() }}"
+
+vars:
+  #business critical cost config
+  snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
+  target_dev: 'dev' #your target name in dev
+  target_prod: 'prod' #your target name in prod
 
 models:    
 # artifacts destination
   dbt_snowflake_artifacts:
       artifacts:
           +schema: artifacts
-          +enabled: "{{ target.name in ['dev', 'prod'] }}"
-
-vars:
-  #business critical
-  snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
-  target_dev: 'dev'
-  target_prod: 'prod'
-
+          +materialized: view
+          #enabled only if target name matches dev or prod
+          +enabled: "{{ target.name in ['dev','prod'] }}"
 ```
+## FYI
 
-+ Your Looker role have access to the `_ARTIFACTS` schema
-
-### Change Snowflake contract environmental variable:
-
-![snowflake_pricing](./_misc/snowflake_pricing.png)
+### Change Snowflake contract pricing:
 
 **Windows**
 
@@ -62,24 +63,32 @@ set SNOWFLAKE_CONTRACT_RATE=4
 export SNOWFLAKE_CONTRACT_RATE=4
 ```
 
+![snowflake_pricing](./_misc/snowflake_pricing.png)
+
++ Your Looker role have access to the `_ARTIFACTS` schema
++ Note that if you choose to materialize it as a table, you need to add an extra step to your dbt Cloud jobs for building from the raw tables in the `DBT_ARTIFACTS` schema
+
+The job should include only one step and the same environmental variables:
+
+```bash
+dbt run -s dbt_snowflake_artifacts.*
+```
+
 **dbt Cloud**
 
 Go to `Settings` > `Environment Variables` > `Add Variable`
 
 See docs: https://docs.getdbt.com/docs/build/environment-variables
 
-## Included models
+## First run
 
+To initialize the package, run the following command:
+
+```bash
+dbt run-operation create_artifacts_tables
 ```
-stg_manifest_nodes
-stg_pipeline_runs
-stg_query_history
-stg_run_results
-wh_model_dags_dim
-wh_model_performance_fact
-wh_pipeline_runs_fact
-wh_test_performance_fact
-```
+This ensures that the schemas and tables are created beforehand.
+
 ## Looker
 
 Add the LookML views in the [views](./looker/views/) folder to your Looker project.
@@ -91,8 +100,6 @@ Refer to: https://cloud.google.com/looker/docs/building-lookml-dashboards
 Add this bit to your `.model` file:
 
 ```
-#### DBT ARTIFACTS PIECES ###
-
 explore: model_performance_fact {
 
   group_label: "Artifacts"

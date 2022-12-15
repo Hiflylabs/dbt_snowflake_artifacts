@@ -15,3 +15,20 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+
+# on-run-end:
+#     - "{{ dbt_snowflake_artifacts.upload_artifacts_wrapper() }}"
+
+# models:    
+# # artifacts destination
+#   dbt_snowflake_artifacts:
+#       artifacts:
+#           +schema: artifacts
+#           +materialized: view
+#           +enabled: "{{ target.name in ['dev', 'prod'] }}"
+
+# vars:
+#   #business critical
+#   snowflake_contract_rate: "{{ env_var('SNOWFLAKE_CONTRACT_RATE', 4) }}"
+#   target_dev: 'dev'
+#   target_prod: 'prod'
