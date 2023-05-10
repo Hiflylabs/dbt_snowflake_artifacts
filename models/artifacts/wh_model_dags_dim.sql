@@ -11,7 +11,7 @@ with manifest_nodes as (
 final as (
 
     select distinct
-        {{ dbt_utils.surrogate_key(['model_name', 'tags', 'upstream_dependencies']) }} as model_dag_pk,
+        {{ dbt_utils.generate_surrogate_key(['model_name', 'tags', 'upstream_dependencies']) }} as model_dag_pk,
         model_name,
         first_value(tags) over (partition by model_name order by artifact_generated_at desc) as tags,
         first_value(

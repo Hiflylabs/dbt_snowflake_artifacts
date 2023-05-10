@@ -16,7 +16,7 @@ query_history as (
 joint as (
 
     select
-        {{ dbt_utils.surrogate_key(['model_name', 'artifact_run_id', 'start_date', 'end_date']) }} as model_performance_pk,
+        {{ dbt_utils.generate_surrogate_key(['model_name', 'artifact_run_id', 'start_date', 'end_date']) }} as model_performance_pk,
         r.*,
         q.query_type,
         q.query_text,

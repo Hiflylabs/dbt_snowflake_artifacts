@@ -11,7 +11,7 @@ with pipeline_runs as (
 final as (
 
     select
-        {{ dbt_utils.surrogate_key(['run_start', 'run_elapsed_time', 'run_selection']) }} as pipeline_run_pk,
+        {{ dbt_utils.generate_surrogate_key(['run_start', 'run_elapsed_time', 'run_selection']) }} as pipeline_run_pk,
         *
     from pipeline_runs
 
